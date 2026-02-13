@@ -110,6 +110,8 @@ pip install -e .
 uv pip install -e .
 ```
 
+> **Notice:** Due to double-blind review requirements, we cannot provide the data files necessary for actual execution of the simulation code. The code in this repository is provided solely for the purpose of evaluating the authenticity and novelty of the research outcomes.
+
 ### Requirements
 
 - Python 3.11+

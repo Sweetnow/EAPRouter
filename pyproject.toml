@@ -37,6 +37,8 @@ dependencies = [
     "black>=25.12.0",
     "sqlmodel>=0.0.16",
     "greenlet>=3.0.0",
+    "mcp[cli]>=1.26.0",
+    "faiss-cpu>=1.13.2",
 ]
 
 [tool.hatch.build.targets.wheel]
