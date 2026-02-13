@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "simframework"
+version = "2.0.0" # change it for each release
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+]
+dependencies = [
+    "click>=8.0.0",
+    "geojson>=3.1.0",
+    "numpy>=1.20.0,<2.0.0",
+    "aiosqlite>=0.20.0",
+    "pycityproto>=2.4.5",
+    "pydantic>=2.10.4",
+    "pyproj>=3.6.0",
+    "python-dotenv>=1.0.0",
+    "PyYAML>=6.0.2",
+    "Shapely>=2.0.6",
+    "json-repair>=0.46.2",
+    "litellm>=1.77.7",
+    "ruamel-yaml>=0.18.15",
+    "prompt-toolkit>=3.0.51",
+    "mem0ai>=1.0.0",
+    "qdrant-client>=1.7.0",
+    "aiohttp>=3.10.11",
+    "stringcase>=1.2.0",
+    "chromadb>=1.4.0",
+    "fastapi>=0.128.0",
+    "uvicorn>=0.35.0",
+    "black>=25.12.0",
+    "sqlmodel>=0.0.16",
+    "greenlet>=3.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["simframework"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
