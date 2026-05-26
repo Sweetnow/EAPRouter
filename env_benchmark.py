@@ -86,17 +86,17 @@ from typing import List, Dict, Any, Tuple, Set
 from dotenv import load_dotenv
 load_dotenv(".env")
 
-from simframework.contrib.env.event_space import EventSpace
-from simframework.contrib.env.mobility_space import MobilitySpace
-from simframework.env import (
-    CodeGenRouter,
+from eaprouter.contrib.env.event_space import EventSpace
+from eaprouter.contrib.env.mobility_space import MobilitySpace
+from eaprouter.env import (
+    EAPRouter,
     PlanExecuteRouter,
     ReActRouter,
     SearchToolRouter,
     TwoTierPlanExecuteRouter,
     TwoTierReActRouter,
 )
-from simframework.logger import setup_logging, get_logger
+from eaprouter.logger import setup_logging, get_logger
 from tqdm import tqdm
 
 
@@ -425,7 +425,7 @@ async def initialize_environment(
     
     参数:
         profiles_to_use: 要使用的 agent profile 列表
-        router_class: 路由器类（如 CodeGenRouter、ReActRouter 等）
+        router_class: 路由器类（如 EAPRouter、ReActRouter 等）
         logger: 日志记录器
     
     返回:
@@ -448,7 +448,7 @@ async def initialize_environment(
         )
 
     # 创建 MobilitySpace 环境
-    home_dir = os.path.join(os.path.expanduser("~"), "simframework_data")
+    home_dir = os.path.join(os.path.expanduser("~"), "eaprouter_data")
     map_path = os.path.join(home_dir, "beijing.pb")
     os.makedirs(home_dir, exist_ok=True)
 
@@ -492,7 +492,7 @@ async def main(
     
     参数:
         logger: 日志记录器
-        router_class: 路由器类（如 CodeGenRouter、ReActRouter 等）
+        router_class: 路由器类（如 EAPRouter、ReActRouter 等）
         yaml_data_path: 测试数据 YAML 文件路径
         num_agents: 使用的 agent 数量，默认为 10
         profile_start_idx: profile 的起始索引，默认为 0
@@ -766,7 +766,7 @@ async def _main():
         log_level=logging.INFO,
     )
     router_classes = {
-        "code_gen": CodeGenRouter,
+        "code_gen": EAPRouter,
         "react": ReActRouter,
         "plan_execute": PlanExecuteRouter,
         "search_tool": SearchToolRouter,

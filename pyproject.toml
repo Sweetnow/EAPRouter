@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "simframework"
+name = "eaprouter"
 version = "2.0.0" # change it for each release
 readme = "README.md"
 requires-python = ">=3.11"
@@ -42,7 +42,7 @@ dependencies = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["simframework"]
+packages = ["eaprouter"]
 
 [dependency-groups]
 dev = [

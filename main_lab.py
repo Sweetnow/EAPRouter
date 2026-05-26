@@ -16,15 +16,15 @@ import numpy as np
 
 load_dotenv()
 
-from simframework.contrib.env.commons_tragedy import CommonsTragedyEnv
-from simframework.contrib.env.prisoners_dilemma import PrisonersDilemmaEnv
-from simframework.contrib.env.public_goods import PublicGoodsEnv
-from simframework.contrib.env.trust_game import TrustGameEnv
-from simframework.contrib.env.volunteer_dilemma import VolunteerDilemmaEnv
-from simframework.agent import PersonAgent
-from simframework.env import CodeGenRouter
-from simframework.society import SimFramework
-from simframework.logger import setup_logging, get_logger
+from eaprouter.contrib.env.commons_tragedy import CommonsTragedyEnv
+from eaprouter.contrib.env.prisoners_dilemma import PrisonersDilemmaEnv
+from eaprouter.contrib.env.public_goods import PublicGoodsEnv
+from eaprouter.contrib.env.trust_game import TrustGameEnv
+from eaprouter.contrib.env.volunteer_dilemma import VolunteerDilemmaEnv
+from eaprouter.agent import PersonAgent
+from eaprouter.env import EAPRouter
+from eaprouter.society import EAPRouterSimulation
+from eaprouter.logger import setup_logging, get_logger
 
 
 def _calculate_volunteer_dilemma_statistics(per_game_payoffs, all_game_round_choices,
@@ -570,8 +570,8 @@ async def main_commons_tragedy_with_person_agent(
             }
         )
 
-    # ------- 创建环境和 SimFramework ====================
-    logger.info("\n【步骤4】初始化环境和 SimFramework...")
+    # ------- 创建环境和 EAPRouter ====================
+    logger.info("\n【步骤4】初始化环境和 EAPRouter...")
 
     # 统计变量
     total_extractions = []
@@ -593,7 +593,7 @@ async def main_commons_tragedy_with_person_agent(
         )
 
         # 创建环境路由器
-        env_router = CodeGenRouter(env_modules=[env_module])
+        env_router = EAPRouter(env_modules=[env_module])
 
         # 为这一局创建新的 agents
         agents = [PersonAgent(**args) for args in agent_args]
@@ -605,11 +605,11 @@ async def main_commons_tragedy_with_person_agent(
             agent._satisfactions.safety = 0.9
             agent._satisfactions.social = 0.9
 
-        # 创建 SimFramework
+        # 创建 EAPRouter
         start_time = datetime.now()
         society = None
         try:
-            society = SimFramework(
+            society = EAPRouterSimulation(
                 agents=agents,
                 env_router=env_router,
                 start_t=start_time
@@ -945,8 +945,8 @@ async def main_prisoners_dilemma_with_person_agent(
             }
         )
 
-    # ------- 创建环境和 SimFramework ====================
-    logger.info("\n【步骤4】初始化环境和 SimFramework...")
+    # ------- 创建环境和 EAPRouter ====================
+    logger.info("\n【步骤4】初始化环境和 EAPRouter...")
 
     # 统计变量
     total_actions = {name: [] for name in agent_names}
@@ -968,7 +968,7 @@ async def main_prisoners_dilemma_with_person_agent(
         )
 
         # 创建环境路由器
-        env_router = CodeGenRouter(env_modules=[env_module])
+        env_router = EAPRouter(env_modules=[env_module])
 
         # 为这一局创建新的 agents
         agents = [PersonAgent(**args) for args in agent_args]
@@ -980,11 +980,11 @@ async def main_prisoners_dilemma_with_person_agent(
             agent._satisfactions.safety = 0.9
             agent._satisfactions.social = 0.9
 
-        # 创建 SimFramework
+        # 创建 EAPRouter
         start_time = datetime.now()
         society = None
         try:
-            society = SimFramework(
+            society = EAPRouterSimulation(
                 agents=agents,
                 env_router=env_router,
                 start_t=start_time
@@ -1291,8 +1291,8 @@ async def main_public_goods_with_person_agent(
             }
         )
 
-    # ------- 创建环境和 SimFramework ====================
-    logger.info("\n【步骤4】初始化环境和 SimFramework...")
+    # ------- 创建环境和 EAPRouter ====================
+    logger.info("\n【步骤4】初始化环境和 EAPRouter...")
 
     # 统计变量
     all_game_round_contributions = defaultdict(list)
@@ -1313,7 +1313,7 @@ async def main_public_goods_with_person_agent(
         )
 
         # 创建环境路由器
-        env_router = CodeGenRouter(env_modules=[env_module])
+        env_router = EAPRouter(env_modules=[env_module])
 
         # 为这一局创建新的 agents
         agents = [PersonAgent(**args) for args in agent_args]
@@ -1325,11 +1325,11 @@ async def main_public_goods_with_person_agent(
             agent._satisfactions.safety = 0.9
             agent._satisfactions.social = 0.9
 
-        # 创建 SimFramework
+        # 创建 EAPRouter
         start_time = datetime.now()
         society = None
         try:
-            society = SimFramework(
+            society = EAPRouterSimulation(
                 agents=agents,
                 env_router=env_router,
                 start_t=start_time
@@ -1607,7 +1607,7 @@ async def main_trust_game_with_person_agent(
         )
 
         # 创建环境路由器
-        env_router = CodeGenRouter(env_modules=[env_module])
+        env_router = EAPRouter(env_modules=[env_module])
 
         # 为这一局创建新的 agents
         agent_args = []
@@ -1731,7 +1731,7 @@ async def main_trust_game_with_person_agent(
         # 设置环境的partner mapping
         env_module.set_partner_mapping(partner_mapping)
 
-        # 创建 SimFramework
+        # 创建 EAPRouter
         agents = [PersonAgent(**args) for args in agent_args]
         
         # 信任游戏实验：初始化所有需求满意度为 0.9
@@ -1744,7 +1744,7 @@ async def main_trust_game_with_person_agent(
         start_time = datetime.now()
         society = None
         try:
-            society = SimFramework(
+            society = EAPRouterSimulation(
                 agents=agents,
                 env_router=env_router,
                 start_t=start_time
@@ -2080,8 +2080,8 @@ async def main_volunteer_dilemma_with_person_agent(
             }
         )
 
-    # ------- 创建环境和 SimFramework ====================
-    logger.info("\n【步骤4】初始化环境和 SimFramework...")
+    # ------- 创建环境和 EAPRouter ====================
+    logger.info("\n【步骤4】初始化环境和 EAPRouter...")
 
     # 统计变量
     all_game_round_choices = defaultdict(list)
@@ -2101,7 +2101,7 @@ async def main_volunteer_dilemma_with_person_agent(
         )
 
         # 创建环境路由器
-        env_router = CodeGenRouter(env_modules=[env_module])
+        env_router = EAPRouter(env_modules=[env_module])
 
         # 为这一局创建新的 agents
         agents = [PersonAgent(**args) for args in agent_args]
@@ -2113,11 +2113,11 @@ async def main_volunteer_dilemma_with_person_agent(
             agent._satisfactions.safety = 0.9
             agent._satisfactions.social = 0.9
 
-        # 创建 SimFramework
+        # 创建 EAPRouter
         start_time = datetime.now()
         society = None
         try:
-            society = SimFramework(
+            society = EAPRouterSimulation(
                 agents=agents,
                 env_router=env_router,
                 start_t=start_time
@@ -2482,7 +2482,7 @@ async def run_all_games():
 
 if __name__ == "__main__":
     print("\n" + "=" * 80)
-    print("【SimFramework 游戏实验平台】")
+    print("【EAPRouter 游戏实验平台】")
     print("=" * 80)
     print("\n请选择要运行的游戏类型:")
     print("  1. Commons Tragedy（公地悲剧）")

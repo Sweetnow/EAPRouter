@@ -11,13 +11,13 @@ from dotenv import load_dotenv
 # load_dotenv(".env.openrouter")
 load_dotenv()
 
-from simframework.contrib.env.mobility_space import MobilitySpace
-from simframework.contrib.env.event_space import EventSpace
-from simframework.contrib.env.simple_social_space import SimpleSocialSpace
-from simframework.agent import PersonAgent
-from simframework.env import CodeGenRouter
-from simframework.society import SimFramework
-from simframework.logger import setup_logging, get_logger
+from eaprouter.contrib.env.mobility_space import MobilitySpace
+from eaprouter.contrib.env.event_space import EventSpace
+from eaprouter.contrib.env.simple_social_space import SimpleSocialSpace
+from eaprouter.agent import PersonAgent
+from eaprouter.env import EAPRouter
+from eaprouter.society import EAPRouterSimulation
+from eaprouter.logger import setup_logging, get_logger
 
 
 def _calculate_gyration_radius(trajectories: list) -> float:
@@ -198,7 +198,7 @@ async def main(
 
     # 创建 MobilitySpace 环境
     # 使用相对路径而不是硬编码的 /root 路径
-    home_dir = os.path.join(os.path.expanduser("~"), "simframework_data")
+    home_dir = os.path.join(os.path.expanduser("~"), "eaprouter_data")
     map_path = os.path.join(home_dir, "beijing.pb")
     os.makedirs(home_dir, exist_ok=True)
 
@@ -208,8 +208,8 @@ async def main(
     # input("Press Enter to continue...")
     event_space = EventSpace()
 
-    # 创建 CodeGenRouter
-    env_router = CodeGenRouter(
+    # 创建 EAPRouter
+    env_router = EAPRouter(
         env_modules=[mobility_env, event_space],
         log_path=f"logs/instruction_log_{datetime.now().strftime('%Y%m%d%H%M%S')}.pkl",
     )
@@ -232,7 +232,7 @@ async def main(
     # 实际初始化agents
     agents = [PersonAgent(**args) for args in agent_args]
 
-    society = SimFramework(
+    society = EAPRouterSimulation(
         agents=agents,
         env_router=env_router,
         start_t=START_TIME,
@@ -480,7 +480,7 @@ async def main_social(
 
     # 创建 MobilitySpace 环境
     # 使用相对路径而不是硬编码的 /root 路径
-    home_dir = os.path.join(os.path.expanduser("~"), "simframework_data")
+    home_dir = os.path.join(os.path.expanduser("~"), "eaprouter_data")
     map_path = os.path.join(home_dir, "beijing.pb")
     os.makedirs(home_dir, exist_ok=True)
 
@@ -493,8 +493,8 @@ async def main_social(
     # # 创建 DailySpace 环境（使用实际的 agent_ids）
     # daily_env = DailySpace(person_ids=actual_agent_ids)
 
-    # 创建 CodeGenRouter
-    env_router = CodeGenRouter(env_modules=[social_env])
+    # 创建 EAPRouter
+    env_router = EAPRouter(env_modules=[social_env])
 
     # 生成世界描述
     world_description = await env_router.generate_world_description_from_tools()
@@ -510,7 +510,7 @@ async def main_social(
     # 实际初始化agents
     agents = [PersonAgent(**args) for args in agent_args]
 
-    society = SimFramework(
+    society = EAPRouterSimulation(
         agents=agents,
         env_router=env_router,
         start_t=START_TIME,
